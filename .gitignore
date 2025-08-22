@@ -1,0 +1,70 @@
+## Ignore Visual Studio temporary files, build results
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstate
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options
+.vs/
+.vscode/
+.idea/
+
+# .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.pdb
+*.dll
+*.exe
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# Entity Framework
+*.db
+*.db-shm
+*.db-wal
+
+# User Secrets
+secrets.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs
+logs/
+*.log
+
+# Docker volumes (local testing)
+postgres_data/

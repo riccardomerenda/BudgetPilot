@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: budgetpilot_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --no-restore -c Release
+    
+    - name: Test
+      run: dotnet test --no-build -c Release --verbosity normal --logger "console;verbosity=detailed"
+      env:
+        ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=budgetpilot_test;Username=postgres;Password=postgres"
+    
+    - name: Check formatting
+      run: dotnet format --verify-no-changes --verbosity diagnostic
