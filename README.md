@@ -1,6 +1,6 @@
 # 🚀 BudgetPilot v1 — Smart Personal Finance Manager
 
-[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=.net)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=.net)](https://dotnet.microsoft.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 [![Blazor](https://img.shields.io/badge/Blazor-Server-5C2D91?style=for-the-badge&logo=blazor)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -56,7 +56,7 @@
 
 ```mermaid
 graph LR
-    A[Browser] --> B[Blazor Server .NET 8]
+    A[Browser] --> B[Blazor Server .NET 9]
     B --> C[EF Core]
     C --> D[PostgreSQL 16]
     B --> E[Identity]
@@ -82,7 +82,7 @@ graph LR
 ## 🚀 Quick Start
 
 ### Prerequisiti
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [Git](https://git-scm.com/)
 
@@ -94,12 +94,10 @@ git clone https://github.com/riccardomerenda/BudgetPilot.git
 cd BudgetPilot
 
 # 2. Avvio database PostgreSQL + Adminer
-cd docker
-cp .env.sample .env
 docker compose up -d
 
 # 3. Setup applicazione
-cd ../src/BudgetPilot.Web
+cd BudgetPilot.Web
 dotnet tool install --global dotnet-ef
 dotnet ef migrations add InitialCreate
 dotnet ef database update
@@ -131,7 +129,7 @@ dotnet run
 ```json
 {
   "ConnectionStrings": {
-    "Default": "Host=localhost;Port=5432;Database=budgetpilot;Username=budgetpilot;Password=budgetpilot"
+    "Default": "Host=localhost;Port=5432;Database=budgetpilot;Username=postgres;Password=postgres"
   }
 }
 ```
@@ -203,17 +201,16 @@ dotnet build --configuration Release
 
 ```
 BudgetPilot/
-├── 📁 src/
-│   └── BudgetPilot.Web/          # Blazor Server App
-│       ├── 📁 Data/              # EF Core + Entities
-│       ├── 📁 Services/          # Business Logic
-│       ├── 📁 Pages/             # Blazor Pages
-│       ├── 📁 Shared/            # Components
-│       └── 📁 wwwroot/           # Static Files
-├── 📁 docker/                    # PostgreSQL + Adminer
-├── 📁 tests/                     # Unit Tests
-├── 📁 docs/                      # Documentation
-└── 📁 .github/                   # CI/CD Workflows
+├── 📁 BudgetPilot.Web/           # Blazor Server App (.NET 9)
+│   ├── 📁 Data/                  # EF Core + Entities
+│   ├── 📁 Services/              # Business Logic
+│   ├── 📁 Pages/                 # Blazor Pages
+│   ├── 📁 Components/            # Shared Components
+│   └── 📁 wwwroot/               # Static Files
+├── 📁 BudgetPilot.Tests/         # Unit & Integration Tests
+├── 📁 .github/                   # CI/CD Workflows
+├── 📄 docker-compose.yml         # PostgreSQL + Adminer
+└── 📄 BudgetPilot.sln            # Solution File
 ```
 
 ---
