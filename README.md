@@ -96,13 +96,14 @@ cd BudgetPilot
 # 2. Avvio database PostgreSQL + Adminer
 docker compose up -d
 
-# 3. Setup applicazione
+# 3. Setup applicazione (migrazioni già incluse)
 cd BudgetPilot.Web
 dotnet tool install --global dotnet-ef
-dotnet ef migrations add InitialCreate
 dotnet ef database update
 dotnet run
 ```
+
+Nota: l'auto-migrate all'avvio è disabilitato. Esegui manualmente `dotnet ef database update` nelle fasi di setup/deploy.
 
 ### 🎯 Accesso
 - **Applicazione**: https://localhost:7148
@@ -129,10 +130,16 @@ dotnet run
 ```json
 {
   "ConnectionStrings": {
-    "Default": "Host=localhost;Port=5432;Database=budgetpilot;Username=postgres;Password=postgres"
+    "DefaultConnection": "Host=localhost;Port=5432;Database=budgetpilot;Username=postgres;Password=postgres"
   }
 }
 ```
+
+### Multi-tenant (dev)
+- Isolamento per `FamilyId` via query filters.
+- Impostazione tenant durante lo sviluppo:
+  - Header HTTP: `X-Family-Id: <GUID>`
+  - Oppure claim utente: `family_id = <GUID>`
 
 ---
 
@@ -219,7 +226,7 @@ BudgetPilot/
 
 Siamo aperti a contributi! Ecco come:
 
-1. **Fork** il repository
+dotnet1. **Fork** il repository
 2. **Crea** un branch per la feature (`git checkout -b feature/AmazingFeature`)
 3. **Commit** le modifiche (`git commit -m 'Add AmazingFeature'`)
 4. **Push** al branch (`git push origin feature/AmazingFeature`)
