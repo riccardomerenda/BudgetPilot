@@ -105,7 +105,7 @@ dotnet run
 ```
 
 ### 🎯 Accesso
-- **Applicazione**: https://localhost:5001
+- **Applicazione**: https://localhost:7148
 - **Admin Database**: http://localhost:8080
 - **Demo User**: `demo@budgetpilot.ai` / `Demo123!`
 
