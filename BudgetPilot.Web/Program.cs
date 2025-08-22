@@ -54,6 +54,8 @@ try
     else
     {
         // Identity
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<BudgetPilot.Web.Services.ITenantProvider, BudgetPilot.Web.Services.HttpContextTenantProvider>();
         builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
         {
             // Password settings
@@ -95,23 +97,8 @@ try
     // Skip middleware configuration when running under EF Core tools
     if (!EF.IsDesignTime)
     {
-        // Auto-migrate database in development
-        if (app.Environment.IsDevelopment())
-        {
-            using var scope = app.Services.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            try
-            {
-                Log.Information("Applying database migrations...");
-                dbContext.Database.Migrate();
-                Log.Information("Database is ready");
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "An error occurred while migrating the database");
-                throw;
-            }
-        }
+        // Auto-migrate disabled during app startup to avoid impacting tests/runtime
+        // Run migrations explicitly via CLI or deployment pipeline
 
         // Configure pipeline
         if (!app.Environment.IsDevelopment())
