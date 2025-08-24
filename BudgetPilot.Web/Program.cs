@@ -150,7 +150,7 @@ try
         });
         // Optional: run migrations and seed demo data in Development
         // Note: avoid running during design-time or tooling to prevent host abort
-        if (!EF.IsDesignTime)
+        if (!EF.IsDesignTime && !app.Environment.IsEnvironment("Test"))
         {
             using (var scope = app.Services.CreateScope())
             {

@@ -5,11 +5,11 @@ using Xunit;
 
 namespace BudgetPilot.Tests.Integration;
 
-public class HealthCheckTests : IClassFixture<WebApplicationFactory<Program>>
+public class HealthCheckTests : IClassFixture<TestWebApplicationFactory>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public HealthCheckTests(WebApplicationFactory<Program> factory)
+    public HealthCheckTests(TestWebApplicationFactory factory)
     {
         _factory = factory;
     }
