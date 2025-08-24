@@ -7,6 +7,8 @@ public class Family : AuditableEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string Currency { get; set; } = "EUR";
+    public string Culture { get; set; } = "it-IT";
 
     public ICollection<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
     public ICollection<Account> Accounts { get; set; } = new List<Account>();

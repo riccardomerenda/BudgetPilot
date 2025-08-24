@@ -34,8 +34,12 @@ try
     // EF Core with PostgreSQL + Snake Case naming convention
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
     {
-        options.UseNpgsql(connectionString)
-               .UseSnakeCaseNamingConvention();
+        options
+            .UseNpgsql(connectionString, npgsql =>
+            {
+                npgsql.MigrationsHistoryTable("__EFMigrationsHistory", "public");
+            })
+            .UseSnakeCaseNamingConvention();
 
         if (builder.Environment.IsDevelopment())
         {
@@ -49,7 +53,12 @@ try
     {
         // Skip service configuration when running migrations
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+            options
+                .UseNpgsql(connectionString, npgsql =>
+                {
+                    npgsql.MigrationsHistoryTable("__EFMigrationsHistory", "public");
+                })
+                .UseSnakeCaseNamingConvention());
     }
     else
     {
@@ -139,6 +148,30 @@ try
             ResponseWriter = async (context, report) =>
                 await context.Response.WriteAsync(report.Status.ToString())
         });
+        // Optional: run migrations and seed demo data in Development
+        // Note: avoid running during design-time or tooling to prevent host abort
+        if (!EF.IsDesignTime && !app.Environment.IsEnvironment("Test"))
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var configuration = services.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+                var db = services.GetRequiredService<ApplicationDbContext>();
+
+                var applyMigrations = configuration.GetValue<bool>("Database:ApplyMigrations", app.Environment.IsDevelopment());
+                var applySeed = configuration.GetValue<bool>("Database:ApplySeed", app.Environment.IsDevelopment());
+
+                if (applyMigrations)
+                {
+                    db.Database.Migrate();
+                }
+
+                if (applySeed)
+                {
+                    BudgetPilot.Web.Data.Seed.DatabaseSeeder.SeedAsync(db).GetAwaiter().GetResult();
+                }
+            }
+        }
 
         app.Run();
     }
