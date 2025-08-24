@@ -7,6 +7,8 @@ public class Category : FamilyScopedEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string? Color { get; set; }
+    public string? Icon { get; set; }
     public Guid? ParentId { get; set; }
     public Category? Parent { get; set; }
 
