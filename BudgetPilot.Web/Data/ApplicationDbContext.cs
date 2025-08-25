@@ -11,12 +11,14 @@ namespace BudgetPilot.Web.Data;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     private readonly ITenantProvider _tenant;
+    public Guid CurrentFamilyId { get; private set; }
 
     // Runtime constructor: uses actual tenant provider
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ITenantProvider tenant)
         : base(options)
     {
         _tenant = tenant;
+        CurrentFamilyId = _tenant.FamilyId;
     }
 
     // Design-time / tests constructor: uses a null tenant provider
@@ -24,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
         _tenant = new NullTenantProvider();
+        CurrentFamilyId = _tenant.FamilyId;
     }
 
     public DbSet<Family> Families => Set<Family>();
@@ -107,11 +110,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasFilter("import_hash IS NOT NULL");
 
         // Global query filters for tenant isolation (exclude Family to avoid required nav warnings)
-        builder.Entity<Account>().HasQueryFilter(e => e.FamilyId == _tenant.FamilyId);
-        builder.Entity<Category>().HasQueryFilter(e => e.FamilyId == _tenant.FamilyId);
-        builder.Entity<Transaction>().HasQueryFilter(e => e.FamilyId == _tenant.FamilyId);
-        builder.Entity<Budget>().HasQueryFilter(e => e.FamilyId == _tenant.FamilyId);
-        builder.Entity<Rule>().HasQueryFilter(e => e.FamilyId == _tenant.FamilyId);
+        builder.Entity<Account>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
+        builder.Entity<Category>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
+        builder.Entity<Transaction>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
+        builder.Entity<Budget>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
+        builder.Entity<Rule>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
