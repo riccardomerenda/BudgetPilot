@@ -1,0 +1,53 @@
+@page "/login"
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager Nav
+
+<PageTitle>Login</PageTitle>
+
+<h3>Accedi</h3>
+
+<EditForm Model="@model" OnValidSubmit="@OnSubmit" FormName="login">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <InputText class="form-control" @bind-Value="model.Email" />
+        <div class="form-text">demo@budgetpilot.ai</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <InputText class="form-control" @bind-Value="model.Password" type="password" />
+        <div class="form-text">Demo123!</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Accedi</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger mt-3">@error</div>
+}
+
+@code {
+    private LoginModel model = new() { Email = "demo@budgetpilot.ai", Password = "Demo123!" };
+    private string? error;
+
+    private async Task OnSubmit()
+    {
+        var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
+        if (result.Succeeded)
+        {
+            Nav.NavigateTo("/dashboard", forceLoad: true);
+        }
+        else
+        {
+            error = "Credenziali non valide.";
+        }
+    }
+
+    public class LoginModel
+    {
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}
