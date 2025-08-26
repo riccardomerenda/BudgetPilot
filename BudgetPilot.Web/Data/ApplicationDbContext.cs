@@ -110,11 +110,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasFilter("import_hash IS NOT NULL");
 
         // Global query filters for tenant isolation (exclude Family to avoid required nav warnings)
-        builder.Entity<Account>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
-        builder.Entity<Category>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
-        builder.Entity<Transaction>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
-        builder.Entity<Budget>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
-        builder.Entity<Rule>().HasQueryFilter(e => e.FamilyId == EF.Property<Guid>(this, nameof(CurrentFamilyId)));
+        builder.Entity<Account>().HasQueryFilter(e => e.FamilyId == CurrentFamilyId);
+        builder.Entity<Category>().HasQueryFilter(e => e.FamilyId == CurrentFamilyId);
+        builder.Entity<Transaction>().HasQueryFilter(e => e.FamilyId == CurrentFamilyId);
+        builder.Entity<Budget>().HasQueryFilter(e => e.FamilyId == CurrentFamilyId);
+        builder.Entity<Rule>().HasQueryFilter(e => e.FamilyId == CurrentFamilyId);
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)

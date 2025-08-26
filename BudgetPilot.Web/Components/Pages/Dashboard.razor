@@ -1,0 +1,24 @@
+@page "/dashboard"
+@attribute [Authorize]
+@inject BudgetPilot.Web.Data.ApplicationDbContext Db
+
+<PageTitle>Dashboard</PageTitle>
+
+<h3>Dashboard</h3>
+<p>Benvenuto! Stai visualizzando i dati della tua famiglia demo.</p>
+
+<ul>
+@foreach (var account in accounts)
+{
+    <li>@account.Name</li>
+}
+</ul>
+
+@code {
+    private List<BudgetPilot.Web.Models.Account> accounts = new();
+
+    protected override void OnInitialized()
+    {
+        accounts = Db.Accounts.OrderBy(a => a.Name).ToList();
+    }
+}

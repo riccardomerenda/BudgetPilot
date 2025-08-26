@@ -83,7 +83,8 @@ try
             options.User.RequireUniqueEmail = true;
         })
         .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
+        .AddDefaultTokenProviders()
+        .AddClaimsPrincipalFactory<BudgetPilot.Web.Services.ApplicationUserClaimsPrincipalFactory>();
 
         // Add Blazor services
         builder.Services.AddRazorComponents()
@@ -170,6 +171,8 @@ try
                 if (applySeed)
                 {
                     BudgetPilot.Web.Data.Seed.DatabaseSeeder.SeedAsync(db).GetAwaiter().GetResult();
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    BudgetPilot.Web.Data.Seed.IdentitySeeder.SeedAsync(userManager).GetAwaiter().GetResult();
                 }
             }
         }
