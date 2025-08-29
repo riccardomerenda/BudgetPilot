@@ -1,13 +1,21 @@
 # 🚀 BudgetPilot v1 — Smart Personal Finance Manager
 
-[![CI](https://github.com/riccardomerenda/BudgetPilot/workflows/CI/badge.svg)](https://github.com/riccardomerenda/BudgetPilot/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/riccardomerenda/BudgetPilot/branch/main/graph/badge.svg)](https://codecov.io/gh/riccardomerenda/BudgetPilot)
-[![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=.net)](https://dotnet.microsoft.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
+# 🚀 BudgetPilot v1 — Smart Personal Finance Manager
+
+<!-- Badge dinamici (stato reale del progetto) -->
+[![Build Status](https://img.shields.io/github/actions/workflow/status/riccardomerenda/BudgetPilot/ci.yml?branch=main&style=for-the-badge&logo=github-actions&label=Build)](https://github.com/riccardomerenda/BudgetPilot/actions/workflows/ci.yml)
+[![Code Coverage](https://img.shields.io/codecov/c/github/riccardomerenda/BudgetPilot?style=for-the-badge&logo=codecov&label=Coverage)](https://codecov.io/gh/riccardomerenda/BudgetPilot)
+[![License](https://img.shields.io/github/license/riccardomerenda/BudgetPilot?style=for-the-badge&label=License)](LICENSE)
+
+<!-- Badge tecnologici (informativi) -->
+[![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
 [![Blazor](https://img.shields.io/badge/Blazor-Server-5C2D91?style=for-the-badge&logo=blazor)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Status](https://img.shields.io/badge/Stage-MVP--first-blue?style=for-the-badge)](https://github.com/riccardomerenda/BudgetPilot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+<!-- Badge di stato progetto -->
+[![Stage](https://img.shields.io/badge/Stage-MVP_Development-yellow?style=for-the-badge)](https://github.com/riccardomerenda/BudgetPilot)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](https://github.com/riccardomerenda/BudgetPilot/pulls)
 
 > **🎯 Privacy-first PFM domestico** per famiglia (2 utenti) con **Blazor Server + PostgreSQL**
 > 
