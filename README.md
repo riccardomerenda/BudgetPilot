@@ -1,5 +1,7 @@
 # 🚀 BudgetPilot v1 — Smart Personal Finance Manager
 
+[![CI](https://github.com/riccardomerenda/BudgetPilot/workflows/CI/badge.svg)](https://github.com/riccardomerenda/BudgetPilot/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/riccardomerenda/BudgetPilot/branch/main/graph/badge.svg)](https://codecov.io/gh/riccardomerenda/BudgetPilot)
 [![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=.net)](https://dotnet.microsoft.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
 [![Blazor](https://img.shields.io/badge/Blazor-Server-5C2D91?style=for-the-badge&logo=blazor)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
@@ -176,9 +178,12 @@ dotnet build --configuration Release
 
 ### GitHub Actions
 - ✅ Build automatico su push/PR
-- ✅ Test unitari
-- ✅ Code coverage
-- ✅ Security scanning
+- ✅ Test unitari e integrazione
+- ✅ Code coverage con reportgenerator
+- ✅ Upload coverage su Codecov
+- ✅ Artefatti per analisi
+- ✅ Health endpoint `/health` con timestamp
+- ✅ Code formatting checks
 
 ---
 

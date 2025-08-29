@@ -39,10 +39,31 @@ jobs:
     - name: Build
       run: dotnet build --no-restore -c Release
     
-    - name: Test
-      run: dotnet test --no-build -c Release --verbosity normal --logger "console;verbosity=detailed"
+    - name: Test with Coverage
+      run: dotnet test --no-build -c Release --verbosity normal --logger "console;verbosity=detailed" --collect:"XPlat Code Coverage" --results-directory ./coverage
       env:
         ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=budgetpilot_test;Username=postgres;Password=postgres"
+    
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+    
+    - name: Generate Coverage Report
+      run: reportgenerator -reports:"coverage/**/coverage.cobertura.xml" -targetdir:"coverage-report" -reporttypes:"Html;Cobertura"
+    
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage-report/Cobertura.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
+    
+    - name: Upload Coverage Report as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage-report/
     
     - name: Check formatting
       run: dotnet format --verify-no-changes --verbosity diagnostic

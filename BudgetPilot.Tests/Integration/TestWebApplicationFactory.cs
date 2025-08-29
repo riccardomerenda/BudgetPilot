@@ -35,11 +35,28 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
                 services.Remove(descriptor);
             }
 
+            // Remove all health check related services to avoid conflicts
+            var healthCheckServiceTypes = new[]
+            {
+                typeof(IHealthCheck),
+                typeof(HealthCheckService)
+            };
+
+            foreach (var serviceType in healthCheckServiceTypes)
+            {
+                var descriptors = services.Where(d => d.ServiceType == serviceType).ToList();
+                foreach (var desc in descriptors)
+                {
+                    services.Remove(desc);
+                }
+            }
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase("BudgetPilotTests"));
 
+            // Add clean health checks for testing (using different name to avoid conflicts)
             services.AddHealthChecks()
-                .AddCheck("noop", () => HealthCheckResult.Healthy());
+                .AddCheck("test-database", () => HealthCheckResult.Healthy("Test database is healthy"));
         });
 
         return base.CreateHost(builder);
