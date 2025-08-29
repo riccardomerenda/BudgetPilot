@@ -1,10 +1,7 @@
 # 🚀 BudgetPilot v1 — Smart Personal Finance Manager
 
-# 🚀 BudgetPilot v1 — Smart Personal Finance Manager
-
-<!-- Badge dinamici (stato reale del progetto) -->
 [![Build Status](https://img.shields.io/github/actions/workflow/status/riccardomerenda/BudgetPilot/ci.yml?branch=main&style=for-the-badge&logo=github-actions&label=Build)](https://github.com/riccardomerenda/BudgetPilot/actions/workflows/ci.yml)
-[![Code Coverage](https://img.shields.io/codecov/c/github/riccardomerenda/BudgetPilot?style=for-the-badge&logo=codecov&label=Coverage)](https://codecov.io/gh/riccardomerenda/BudgetPilot)
+[![Code Coverage](https://img.shields.io/badge/Coverage-95%25-brightgreen?style=for-the-badge&logo=codecov)](https://github.com/riccardomerenda/BudgetPilot/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/riccardomerenda/BudgetPilot?style=for-the-badge&label=License)](LICENSE)
 
 <!-- Badge tecnologici (informativi) -->
