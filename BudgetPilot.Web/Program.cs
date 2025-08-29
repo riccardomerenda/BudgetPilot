@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Serilog;
 using Serilog.Events;
+using System.Linq;
 
 // Bootstrap Serilog (console only for early startup)
 Log.Logger = new LoggerConfiguration()
@@ -96,8 +97,18 @@ try
         builder.Services.AddScoped<IdentityRevalidatingAuthenticationStateProvider>();
 
         // Health Checks
-        builder.Services.AddHealthChecks()
-            .AddNpgSql(connectionString, name: "database");
+        if (builder.Environment.IsEnvironment("Test"))
+        {
+            // Use simple health check for tests
+            builder.Services.AddHealthChecks()
+                .AddCheck("database", () => Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckResult.Healthy("Test database is healthy"));
+        }
+        else
+        {
+            // Use real PostgreSQL health check for non-test environments
+            builder.Services.AddHealthChecks()
+                .AddNpgSql(connectionString, name: "database");
+        }
 
         // Authorization
         builder.Services.AddAuthorization();
@@ -149,7 +160,19 @@ try
         app.MapHealthChecks("/health", new HealthCheckOptions
         {
             ResponseWriter = async (context, report) =>
-                await context.Response.WriteAsync(report.Status.ToString())
+            {
+                context.Response.ContentType = "application/json";
+                var response = new
+                {
+                    status = report.Status.ToString(),
+                    timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                    checks = report.Entries.ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => new { status = kvp.Value.Status.ToString(), description = kvp.Value.Description }
+                    )
+                };
+                await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(response));
+            }
         });
         // Optional: run migrations and seed demo data in Development
         // Note: avoid running during design-time or tooling to prevent host abort
