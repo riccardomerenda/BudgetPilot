@@ -50,14 +50,14 @@ jobs:
     - name: Generate Coverage Report
       run: reportgenerator -reports:"coverage/**/coverage.cobertura.xml" -targetdir:"coverage-report" -reporttypes:"Html;Cobertura"
     
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        file: ./coverage-report/Cobertura.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
-        token: ${{ secrets.CODECOV_TOKEN }}
+    # - name: Upload Coverage to Codecov
+    #   uses: codecov/codecov-action@v4
+    #   with:
+    #     file: ./coverage-report/Cobertura.xml
+    #     flags: unittests
+    #     name: codecov-umbrella
+    #     fail_ci_if_error: false
+    #     token: ${{ secrets.CODECOV_TOKEN }}
     
     - name: Upload Coverage Report as Artifact
       uses: actions/upload-artifact@v4
